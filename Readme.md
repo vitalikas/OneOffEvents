@@ -9,9 +9,9 @@ This Android project demonstrates a robust approach to handling one-off events (
     *   **Domain:** Contains core business logic, use cases, and entities. Independent of other layers.
     *   **Data:** Implements repository interfaces defined in the domain layer, handling data sources (network, local database, etc.).
     *   **Presentation (UI):** Consists of Jetpack Compose UI elements, ViewModels (following MVI or a similar pattern), and handles user interaction and state display.
-*   **Jetpack Compose & Adaptive Design:** The UI is built entirely with Jetpack Compose. It demonstrates how to create adaptive layouts that respond to different window sizes, orientations, and device types (phone, tablet, landscape, portrait). This often involves using `WindowSizeClass` or custom adaptive layout logic.
+*   **Jetpack Compose & Adaptive Design:** The UI is built entirely with Jetpack Compose. It demonstrates how to create adaptive layouts that respond to different window sizes, orientations, and device types (phone, tablet, landscape, portrait). This involves using `WindowSizeClass`.
 *   **State Management with StateFlow:** UI state and one-off events are managed using Kotlin `StateFlow`, promoting a reactive and consistent approach to state updates.
-*   **Dependency Injection:** Utilizes Koin (or Hilt, specify if different) for managing dependencies throughout the application.
+*   **Dependency Injection:** Utilizes Koin for managing dependencies throughout the application.
 
 ## Why StateFlow for One-Off Events?
 
@@ -26,7 +26,7 @@ While `Channels` and `SharedFlow` are often used for one-off events, this projec
 *   [Kotlin](https://kotlinlang.org/) & [Coroutines](https://kotlinlang.org/docs/coroutines-overview.html)
 *   [Jetpack Compose](https://developer.android.com/jetpack/compose) for UI
     *   Compose Material 3
-    *   Compose Navigation (if used)
+    *   Compose Navigation
     *   Compose Window Size Classes for adaptive layouts
 *   [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel) (Jetpack Lifecycle)
 *   [StateFlow](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-state-flow/) for state management and event handling
@@ -44,7 +44,7 @@ While `Channels` and `SharedFlow` are often used for one-off events, this projec
 *   **`AutoConsumableEffectDelegate.kt`:** Examine this class in `core/presentation/util` to understand the `StateFlow`-based event handling.
 *   **ViewModel Implementations:** See how ViewModels (e.g., `LoginViewModel.kt`, `UserProfileViewModel.kt`) post effects using the delegate.
 *   **Composable Screen Event Collection:** Observe how Composable functions collect and handle these one-off events, typically within a `LaunchedEffect` that depends on the event state.
-*   **Adaptive Layouts:** Check Composable functions that use `WindowSizeClass` or other adaptive techniques to adjust their layout (e.g., `LoginScreen.kt` might have different arrangements for portrait/landscape/tablet).
+*   **Adaptive Layouts:** Check Composable functions that use `WindowSizeClass` to adjust their layout (e.g., `LoginScreen.kt` might have different arrangements for portrait/landscape/tablet).
 *   **DI Modules:** Review the Koin modules in the `di` package to see how dependencies are provided.
 
 ## Contribution
