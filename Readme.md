@@ -2,6 +2,10 @@
 
 This Android project demonstrates a robust approach to handling one-off events (like showing Snackbars, navigating, or triggering dialogs) in a Jetpack Compose UI, utilizing `StateFlow` as an alternative to `Channels` or `SharedFlow`. It is built following Clean Architecture principles and showcases adaptive UI design for various screen sizes and orientations.
 
+![phone_landscape](app/src/main/assets/Screenshot_20250704_154123.png)
+
+![tablet_portrait](app/src/main/assets/Screenshot_20250704_154227.png)
+
 ## Core Concepts & Goals
 
 *   **Reliable One-Off Event Handling:** The primary goal is to showcase a mechanism for emitting events from ViewModels (or similar presentation layer components) to the UI such that each event is consumed exactly once, even across configuration changes. This project uses a `StateFlow`-based wrapper (e.g., `AutoConsumableEffectDelegate` or similar) to achieve this.
