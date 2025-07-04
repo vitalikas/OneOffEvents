@@ -1,4 +1,4 @@
-# One-Off Events Demo with StateFlow & Clean Architecture
+# One-Off Events Demo with StateFlow & Clean Architecture & Responsive Compose UI
 
 This Android project demonstrates a robust approach to handling one-off events (like showing Snackbars, navigating, or triggering dialogs) in a Jetpack Compose UI, utilizing `StateFlow` as an alternative to `Channels` or `SharedFlow`. It is built following Clean Architecture principles and showcases adaptive UI design for various screen sizes and orientations.
 
