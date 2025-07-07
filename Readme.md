@@ -13,13 +13,14 @@ This Android project demonstrates a robust approach to handling one-off events (
     *   **Domain:** Contains core business logic, use cases, and entities. Independent of other layers.
     *   **Data:** Implements repository interfaces defined in the domain layer, handling data sources (network, local database, etc.).
     *   **Presentation (UI):** Consists of Jetpack Compose UI elements, ViewModels (following MVI or a similar pattern), and handles user interaction and state display.
-*   **Jetpack Compose & Adaptive Design:** The UI is built entirely with Jetpack Compose. It demonstrates how to create adaptive layouts that respond to different window sizes, orientations, and device types (phone, tablet, landscape, portrait). This involves using `WindowSizeClass`.
+*   **Jetpack Compose & Adaptive Design:** The UI is built entirely with Jetpack Compose. It demonstrates how to create adaptive layouts that respond to different window sizes, orientations (landscape, portrait), and device types (phone, tablet). This involves using `WindowSizeClass`.
 *   **State Management with StateFlow:** UI state and one-off events are managed using Kotlin `StateFlow`, promoting a reactive and consistent approach to state updates.
 *   **Dependency Injection:** Utilizes Koin for managing dependencies throughout the application.
 
 ## Why StateFlow for One-Off Events?
 
-While `Channels` and `SharedFlow` are often used for one-off events, this project explores an alternative using `StateFlow` wrapped in a custom delegate. The rationale includes:
+After reviewing the article [Android One-off Events — Approaches, Evolution & Anti-patterns](https://proandroiddev.com/android-one-off-events-approaches-evolution-anti-patterns-add887cd0250), I have chosen to adopt StateFlow over Channels for managing one-off events in my Android application. The insights provided in the article emphasized the limitations of Channels—particularly the risk of missed events when collectors are inactive—and demonstrated how StateFlow, when used with appropriate state representation, enables a more reliable, maintainable, and lifecycle-aware solution for both UI state and transient event handling.
+The rationale includes:
 
 *   **Simpler Observation in Compose:** `StateFlow` integrates seamlessly with Compose's `collectAsStateWithLifecycle()` (or `collectAsState()`), which is often already used for observing UI state.
 *   **State Restoration:** The chosen mechanism aims to be robust against configuration changes, ensuring events are not lost or re-triggered unintentionally.
