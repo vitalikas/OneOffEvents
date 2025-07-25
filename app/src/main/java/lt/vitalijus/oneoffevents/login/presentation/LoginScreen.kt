@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.windowInsetsPadding
@@ -65,15 +66,15 @@ fun LoginScreenRoot(
 
     LoginScreen(
         state = uiState,
-        onEvent = viewModel::handleEvent,
+        onIntent = viewModel::handleIntent,
         onSystemGoBackClick = onSystemGoBackClick
     )
 }
 
 @Composable
 private fun LoginScreen(
-    state: LoginUiState,
-    onEvent: (loginEvent: LoginEvent) -> Unit,
+    state: LoginScreenState,
+    onIntent: (loginIntent: LoginIntent) -> Unit,
     onSystemGoBackClick: () -> Unit
 ) {
     var emailText by remember { mutableStateOf("") }
@@ -122,7 +123,7 @@ private fun LoginScreen(
                         onEmailTextChange = { emailText = it },
                         passwordText = passwordText,
                         onPasswordTextChange = { passwordText = it },
-                        onLoginClick = { onEvent(LoginEvent.LoginButtonClicked) },
+                        onLoginClick = { onIntent(LoginIntent.LoginButtonClicked) },
                         isLoading = state.isLoading,
                         modifier = Modifier
                             .fillMaxWidth()
@@ -147,7 +148,7 @@ private fun LoginScreen(
                         onEmailTextChange = { emailText = it },
                         passwordText = passwordText,
                         onPasswordTextChange = { passwordText = it },
-                        onLoginClick = { onEvent(LoginEvent.LoginButtonClicked) },
+                        onLoginClick = { onIntent(LoginIntent.LoginButtonClicked) },
                         isLoading = state.isLoading,
                         modifier = Modifier
                             .weight(1f)
@@ -177,7 +178,7 @@ private fun LoginScreen(
                         onEmailTextChange = { emailText = it },
                         passwordText = passwordText,
                         onPasswordTextChange = { passwordText = it },
-                        onLoginClick = { onEvent(LoginEvent.LoginButtonClicked) },
+                        onLoginClick = { onIntent(LoginIntent.LoginButtonClicked) },
                         isLoading = state.isLoading,
                         modifier = Modifier
                             .widthIn(max = 540.dp)
@@ -241,29 +242,37 @@ fun LoginFormSection(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        if (isLoading) {
-            CircularProgressIndicator(
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-            )
-        } else {
-            NoteMarkButton(
-                text = "Log In",
-                onClick = onLoginClick,
-                modifier = Modifier.fillMaxWidth()
-            )
+        NoteMarkButton(
+            onClick = onLoginClick,
+            modifier = Modifier.fillMaxWidth(),
+            enabled = !isLoading,
+            content = {
+                if (isLoading) {
+                    CircularProgressIndicator(
+                        color = MaterialTheme.colorScheme.secondary,
+                        strokeWidth = 2.dp,
+                        modifier = Modifier.size(12.dp)
+                    )
+                } else {
+                    Text(
+                        text = "Log In",
+                        style = MaterialTheme.typography.titleSmall,
+                        color = MaterialTheme.colorScheme.onPrimary
+                    )
+                }
+            }
+        )
 
-            Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
-            NoteMarkLink(
-                text = "Don't have an account? Sign Up",
-                onClick = {
+        NoteMarkLink(
+            text = "Don't have an account? Sign Up",
+            onClick = {
 
-                },
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-            )
-        }
+            },
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+        )
     }
 }
 

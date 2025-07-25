@@ -46,13 +46,13 @@ fun UserProfileScreenRoot(
 
     UserProfileScreen(
         uiState = uiState,
-        onProcessEvent = viewModel::handleEvent
+        onProcessEvent = viewModel::handleIntent
     )
 }
 
 @Composable
 private fun UserProfileScreen(
-    uiState: UserProfileUiState,
+    uiState: UserProfileScreenState,
     onProcessEvent: (event: UserProfileEvent) -> Unit
 ) {
     Scaffold(

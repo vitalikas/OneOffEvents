@@ -11,22 +11,29 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun NoteMarkButton(
-    text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    text: String? = null,
+    enabled: Boolean = true,
+    content: (@Composable () -> Unit)? = null
 ) {
     Button(
         onClick = onClick,
         modifier = modifier,
+        enabled = enabled,
         shape = MaterialTheme.shapes.medium,
         colors = ButtonDefaults.buttonColors(
             containerColor = MaterialTheme.colorScheme.primary
         ),
-        contentPadding = PaddingValues(12.dp)
+        contentPadding = PaddingValues(12.dp),
     ) {
-        Text(
-            text = text,
-            style = MaterialTheme.typography.titleSmall
-        )
+        if (content != null) {
+            content()
+        } else if (text != null) {
+            Text(
+                text = text,
+                style = MaterialTheme.typography.titleSmall
+            )
+        }
     }
 }

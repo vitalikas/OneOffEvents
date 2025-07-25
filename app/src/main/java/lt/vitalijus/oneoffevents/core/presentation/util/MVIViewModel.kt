@@ -6,21 +6,26 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
-abstract class MVIViewModel<STATE, EVENT, EFFECT>(
+abstract class MVIViewModel<STATE, PARTIAL_STATE, INTENT, EFFECT>(
     protected val savedStateHandle: SavedStateHandle? = null,
     protected val effectDelegate: AutoConsumableEffect<EFFECT>
 ) : ViewModel(), AutoConsumableEffect<EFFECT> by effectDelegate {
 
-    abstract val initialState: STATE
+    protected abstract val initialState: STATE
+
+    protected abstract val reducer: Reducer<STATE, PARTIAL_STATE>
 
     private val _uiState by lazy { MutableStateFlow(initialState) }
     val uiState = _uiState.asStateFlow()
 
-    fun updateUiState(
-        updateAction: (currentState: STATE) -> STATE // or updateAction: STATE.() -> STATE as param
-    ) {
-        _uiState.update(updateAction)
-    }
+    abstract fun handleIntent(intent: INTENT)
 
-    abstract fun handleEvent(event: EVENT)
+    protected fun updateState(partialState: PARTIAL_STATE) {
+        _uiState.update { currentState ->
+            reducer.reduce(
+                state = currentState,
+                partialState = partialState
+            )
+        }
+    }
 }
