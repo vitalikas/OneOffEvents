@@ -1,5 +1,6 @@
 package lt.vitalijus.oneoffevents.profile.presentation.user_profile
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import lt.vitalijus.oneoffevents.core.domain.onError
@@ -10,30 +11,19 @@ import lt.vitalijus.oneoffevents.core.presentation.util.Reducer
 import lt.vitalijus.oneoffevents.profile.domain.UserRepository
 
 class UserProfileViewModel(
+    userProfileReducer: Reducer<UserProfileScreenState, UserProfileScreenPartialState>,
     private val userRepository: UserRepository,
     userProfileEffectDelegate: AutoConsumableEffect<UserProfileEffect>
 ) : MVIViewModel<UserProfileScreenState, UserProfileScreenPartialState, UserProfileEvent, UserProfileEffect>(
     effectDelegate = userProfileEffectDelegate
 ) {
 
-    override val reducer = Reducer<UserProfileScreenState, UserProfileScreenPartialState> { state, partial ->
-        return@Reducer when (partial) {
-            UserProfileScreenPartialState.Loading -> state.copy(
-                isLoading = true,
-                error = null
-            )
-
-            is UserProfileScreenPartialState.Error -> state.copy(
-                isLoading = false,
-                error = partial.message
-            )
-
-            is UserProfileScreenPartialState.Success -> state.copy(
-                isLoading = false,
-                error = null
-            )
-        }
+    init {
+        Log.d("reducer", "Reducer instance injected: ${userProfileReducer::class.java.name} (hash: ${userProfileReducer.hashCode()})")
+        Log.d("reducer", "LoginViewModel instance created: ${this.hashCode()}")
     }
+
+    override val reducer = userProfileReducer
 
     override val initialState: UserProfileScreenState
         get() = UserProfileScreenState()

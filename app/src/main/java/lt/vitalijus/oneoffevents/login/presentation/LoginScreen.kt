@@ -80,7 +80,6 @@ private fun LoginScreen(
     var emailText by remember { mutableStateOf("") }
     var passwordText by remember { mutableStateOf("") }
 
-
     Scaffold(
         modifier = Modifier
             .fillMaxSize(),

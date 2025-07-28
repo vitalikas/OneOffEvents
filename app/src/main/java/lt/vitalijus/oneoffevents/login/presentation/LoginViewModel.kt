@@ -10,29 +10,14 @@ import lt.vitalijus.oneoffevents.core.presentation.util.Reducer
 import lt.vitalijus.oneoffevents.login.domain.AuthRepository
 
 class LoginViewModel(
+    loginReducer: Reducer<LoginScreenState, LoginScreenPartialState>,
     private val authRepository: AuthRepository,
     loginEffectDelegate: AutoConsumableEffectDelegate<LoginEffect>,
 ) : MVIViewModel<LoginScreenState, LoginScreenPartialState, LoginIntent, LoginEffect>(
     effectDelegate = loginEffectDelegate
 ) {
-    override val reducer = Reducer<LoginScreenState, LoginScreenPartialState> { state, partialState ->
-        return@Reducer when (partialState) {
-            LoginScreenPartialState.Loading -> state.copy(
-                isLoading = true,
-                error = null
-            )
 
-            is LoginScreenPartialState.Error -> state.copy(
-                isLoading = false,
-                error = partialState.message
-            )
-
-            is LoginScreenPartialState.Success -> state.copy(
-                isLoading = false,
-                error = null
-            )
-        }
-    }
+    override val reducer = loginReducer
 
     override val initialState: LoginScreenState
         get() = LoginScreenState()
